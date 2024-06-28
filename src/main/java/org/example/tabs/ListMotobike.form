@@ -65,7 +65,7 @@
             </constraints>
             <properties>
               <font size="16"/>
-              <icon value="Icons/add_new_24px.png"/>
+              <icon value="Icons/add_new_32px.png"/>
               <text value="Add new Motobike:"/>
             </properties>
           </component>
@@ -202,7 +202,10 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                  <enabled value="false"/>
+                </properties>
               </component>
             </children>
           </grid>
@@ -261,7 +264,7 @@
             </constraints>
             <properties>
               <font size="16"/>
-              <icon value="Icons/2list_24px.png"/>
+              <icon value="Icons/list_32px.png"/>
               <text value="List Motobike:"/>
             </properties>
           </component>
@@ -329,6 +332,7 @@
               <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <icon value="Icons/delete_24px.png"/>
               <text value="Delete"/>
             </properties>
           </component>
@@ -342,6 +346,7 @@
               <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <icon value="Icons/updated_24px.png"/>
               <text value="Update"/>
             </properties>
           </component>
@@ -350,6 +355,7 @@
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <icon value="Icons/save_24px.png"/>
               <text value="Save"/>
             </properties>
           </component>
@@ -358,6 +364,7 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <icon value="Icons/edit_24px.png"/>
               <text value="Edit"/>
             </properties>
           </component>
@@ -366,6 +373,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <icon value="Icons/add_24px.png"/>
               <text value="New"/>
             </properties>
           </component>
