@@ -1,6 +1,8 @@
 package org.example.entity;
 
-public class UserLogin {
+import java.io.Serializable;
+
+public class UserLogin implements Serializable {
     private  int id;
     private String username;
     private String password;
