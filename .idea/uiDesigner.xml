@@ -26,16 +26,16 @@
           <property name="text" value="RadioButton" />
         </initial-values>
       </item>
-      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
-        <initial-values>
-          <property name="text" value="CheckBox" />
-        </initial-values>
-      </item>
       <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
         <initial-values>
           <property name="text" value="Label" />
+        </initial-values>
+      </item>
+      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+        <initial-values>
+          <property name="text" value="CheckBox" />
         </initial-values>
       </item>
       <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
@@ -120,6 +120,15 @@
         <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
       </item>
       <item class="javax.swing.JLayeredPane" icon="javax/swing/beaninfo/images/JLayeredPaneColor16.gif" removable="true" auto-create-binding="false" can-attach-label="false">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
+      </item>
+      <item class="javax.swing.JMenu" icon="javax/swing/beaninfo/images/JMenuColor16.gif" removable="true" auto-create-binding="false" can-attach-label="false" is-container="true">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
+      </item>
+      <item class="javax.swing.JMenuBar" icon="javax/swing/beaninfo/images/JMenuBarColor16.gif" removable="true" auto-create-binding="false" can-attach-label="false" is-container="true">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
+      </item>
+      <item class="javax.swing.JMenuItem" icon="javax/swing/beaninfo/images/JMenuItemColor16.gif" removable="true" auto-create-binding="false" can-attach-label="false" is-container="true">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
     </group>
