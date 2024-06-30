@@ -35,7 +35,7 @@ public class Login {
                     for(char c: txtPassword.getPassword()){
                         password+= c;
                     }
-                    if (txtUsername.getText().equals("") ||password.equals("")) {
+                    if (txtUsername.getText().equals("") || password.equals("")) {
                         JOptionPane.showMessageDialog(null, "Username or password cannot be empty!!!", "Error",JOptionPane.ERROR_MESSAGE);
                     }
                     else {
@@ -48,6 +48,26 @@ public class Login {
                 }
             }
         });
+//        rememberMeCheckBox.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                String username = txtUsername.getText();
+//                String password = "";
+//                for(char c: txtPassword.getPassword()){
+//                    password+= c;
+//                }
+//                if(rememberMeCheckBox.isSelected()) {
+//                    username = txtUsername.getText();
+//                    for(char c: txtPassword.getPassword()){
+//                        password+= c;
+//                    }
+//                }
+//                else {
+//                    txtUsername.setText("");
+//                    txtPassword.setText("");
+//                }
+//            }
+//        });
     }
 
     private void loginUser(String username, String password) throws SQLException, ClassNotFoundException {
@@ -73,6 +93,4 @@ public class Login {
         loginForm.setVisible(true);
         loginForm.setLocationRelativeTo(null);
     }
-
-
 }
