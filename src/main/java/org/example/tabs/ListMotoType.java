@@ -6,8 +6,7 @@ import org.example.validator.MotoTypeValidator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.List;
 
 public class ListMotoType {
@@ -138,6 +137,33 @@ public class ListMotoType {
                 }
             }
         });
+        tbListType.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = tbListType.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object idObj = tbListType.getValueAt(selectedRow,0);
+                    if (idObj != null) {
+                        int id = Integer.parseInt(idObj.toString());
+                        loadById(id);
+                        changeStatus(true, false, true, true);
+                        changFieldStates(false);
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadById(int id) {
+        try {
+            MotoTypeDAO dao = new MotoTypeDAO();
+            MotoType entity = dao.findById(id);
+            txtIdType.setText("" + entity.getId());
+            txtNameType.setText(entity.getName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void initTable() {

@@ -64,4 +64,21 @@ public class MotoTypeDAO {
             return ptms.executeUpdate() > 0;
         }
     }
+
+    public MotoType findById(int id) throws SQLException, ClassNotFoundException {
+        String sql = "select * from MotoType where id =?";
+        try (Connection conn = DBHelper.getConnection();
+            PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setInt(1, id);
+            try (ResultSet rs = ptsmt.executeQuery()) {
+                while (rs.next()) {
+                    MotoType entity = new MotoType();
+                    entity.setId(rs.getInt("id"));
+                    entity.setName(rs.getString("name"));
+                    return entity;
+                }
+            }
+            return null;
+        }
+    }
 }
