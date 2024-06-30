@@ -44,4 +44,24 @@ public class MotoTypeDAO {
             return entity;
         }
     }
+
+    public MotoType update(MotoType entity) throws SQLException, ClassNotFoundException {
+        String sql = "update MotoType set name =? where id =?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setString(1, entity.getName());
+            ptsmt.setInt(2, entity.getId());
+            ptsmt.executeUpdate();
+            return entity;
+        }
+    }
+    public boolean delete(int id) throws SQLException, ClassNotFoundException {
+        String sql = "delete from MotoType where id =?";
+
+        try(Connection conn = DBHelper.getConnection();
+            PreparedStatement ptms = conn.prepareStatement(sql)) {
+            ptms.setInt(1, id);
+            return ptms.executeUpdate() > 0;
+        }
+    }
 }

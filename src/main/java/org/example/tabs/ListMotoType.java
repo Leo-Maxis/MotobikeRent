@@ -38,6 +38,7 @@ public class ListMotoType {
     }
     private void changFieldStates(boolean isEditable) {
         txtNameType.setEditable(isEditable);
+
     }
 
     public ListMotoType() {
@@ -72,6 +73,66 @@ public class ListMotoType {
                     changeStatus(true, false, true, true);
                     loadData();
                 } catch (Exception ex){
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    String valid = MotoTypeValidator.validate(txtNameType);
+                    if(valid != null ) {
+                        JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    MotoType entity = new MotoType();
+                    entity.setId(Integer.parseInt(txtIdType.getText()));
+                    entity.setName(txtNameType.getText());
+                    MotoTypeDAO dao = new MotoTypeDAO();
+                    entity = dao.update(entity);
+                    JOptionPane.showMessageDialog(null, "Type is updated!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    txtIdType.setEditable(false);
+                    txtNameType.setEditable(false);
+                    changeStatus(true, false, false, true);
+                    loadData();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtNameType.setEditable(true);
+                changeStatus(true, false,true,true);
+            }
+        });
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    MotoTypeDAO dao = new MotoTypeDAO();
+                    int id = Integer.parseInt(txtIdType.getText());
+                    if (dao.delete(id)) {
+                        JOptionPane.showMessageDialog(null, "Type is deleted!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } else  {
+                        JOptionPane.showMessageDialog(null, "Type cannot be delete!!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    txtIdType.setText("");
+                    txtNameType.setText("");
+                    changeStatus(false, true, false, false);
+                    changFieldStates(true);
+                    loadData();
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
