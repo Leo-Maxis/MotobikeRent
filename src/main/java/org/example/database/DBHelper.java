@@ -16,7 +16,7 @@ public class DBHelper {
     public static Connection getConnection(String dbName, String username, String password) throws SQLException, ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String dbURL = "jdbc:sqlserver://localhost:1433;database=%s;username=%s;password=%s;encrypt=true;trustServerCertificate=true;";
-        Connection conn = DriverManager.getConnection(String.format(dbURL, username, password));
+        Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=Motobike;username=sa;password=123123qwe;encrypt=true;trustServerCertificate=true;");
         return conn;
     }
 }

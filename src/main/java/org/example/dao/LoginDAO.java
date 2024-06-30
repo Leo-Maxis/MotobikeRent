@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LoginDAO {
     public UserLogin loginuser(String username, String password) throws SQLException, ClassNotFoundException {
-        String sql = "seclect * from UserLogin where username =? and password =?";
+        String sql = "select * from UserLogin where username =? and password =?";
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement ptsmt = conn.prepareStatement(sql);) {
             List<UserLogin> list = new ArrayList<>();
