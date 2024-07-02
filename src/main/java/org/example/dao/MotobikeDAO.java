@@ -65,4 +65,13 @@ public class MotobikeDAO {
             return ptsmt.executeUpdate() > 0;
         }
     }
+
+    public boolean delete(int id) throws SQLException, ClassNotFoundException {
+        String sql = "delete from motobike where id = ?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setInt(1, id);
+            return ptsmt.executeUpdate() > 0;
+        }
+    }
 }

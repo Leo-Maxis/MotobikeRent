@@ -107,12 +107,40 @@ public class ListMotobike {
                     var result = dao.update(entity);
                     if (result) {
                         JOptionPane.showMessageDialog(null, "Motobike is updated!!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        loadData();
                     } else {
                         JOptionPane.showMessageDialog(null, "Motobike cannot br updated!!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     changeButtonState(true,false, false, false);
                     changeFieldStates(false);
+                    loadData();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to delete?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    int id = Integer.parseInt(txtIdBike.getText());
+                    MotobikeDAO dao = new MotobikeDAO();
+                    var result = dao.delete(id);
+                    if (result) {
+                        JOptionPane.showMessageDialog(null, "Motobike is deleted!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        txtIdBike.setText("");
+                        txtNameBike.setText("");
+                        txtPriceBike.setText("");
+                        txtYearModelBike.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Motobike cannot be deleted!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    changeFieldStates(false);
+                    changeButtonState(false, true, false, false);
+                    loadData();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
