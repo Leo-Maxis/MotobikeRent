@@ -189,11 +189,11 @@ public class ListMotoType {
     }
 
     public void getListMotoType() {
-        JFrame motoTypeFrame = new JFrame("List Motobike Type Frame");
-        motoTypeFrame.setLocationRelativeTo(null);
-        motoTypeFrame.setContentPane(new ListMotoType().motoTypePanel);
-        motoTypeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        motoTypeFrame.pack();
-        motoTypeFrame.setVisible(true);
+        listMotoType.setLocationRelativeTo(null);
+        listMotoType.setContentPane(new ListMotoType().motoTypePanel);
+        listMotoType.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        listMotoType.pack();
+        listMotoType.setVisible(true);
+        listMotoType.setSize(700, 600);
     }
 }

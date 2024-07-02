@@ -83,6 +83,42 @@ public class ListMotobike {
                 }
             }
         });
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    String valid = MotobikeValidator.validate(txtNameBike, txtYearModelBike, txtPriceBike, cboTypeBike);
+                    if (valid != null) {
+                        JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    Motobike entity = new Motobike();
+                    entity.setName(txtNameBike.getText());
+                    entity.setYearModel(Integer.parseInt(txtYearModelBike.getText()));
+                    entity.setPrice(Double.parseDouble(txtPriceBike.getText()));
+                    MotoType motoType = (MotoType) cboTypeBike.getSelectedItem();
+                    entity.setMotoType(motoType.getId());
+                    entity.setTypeName(motoType.getName());
+                    entity.setId(Integer.parseInt(txtIdBike.getText()));
+                    MotobikeDAO dao = new MotobikeDAO();
+                    var result = dao.update(entity);
+                    if (result) {
+                        JOptionPane.showMessageDialog(null, "Motobike is updated!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        loadData();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Motobike cannot br updated!!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    changeButtonState(true,false, false, false);
+                    changeFieldStates(false);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
     private void loadType() {
@@ -136,7 +172,7 @@ public class ListMotobike {
     private void changeFieldStates(boolean isEditable) {
         txtNameBike.setEditable(isEditable);
         txtPriceBike.setEditable(isEditable);
-        cboTypeBike.setEditable(isEditable);
+        cboTypeBike.setEnabled(isEditable);
         txtYearModelBike.setEditable(isEditable);
     }
 
@@ -146,6 +182,7 @@ public class ListMotobike {
         listMotobikeFrame.pack();
         listMotobikeFrame.setVisible(true);
         listMotobikeFrame.setLocationRelativeTo(null);
+        listMotobikeFrame.setSize(700,600);
     }
 
 }
