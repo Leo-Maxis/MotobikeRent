@@ -1,7 +1,10 @@
 package org.example.tabs;
 
 import org.example.dao.MotoTypeDAO;
+import org.example.dao.MotobikeDAO;
 import org.example.entity.MotoType;
+import org.example.entity.Motobike;
+import org.example.validator.MotobikeValidator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +29,7 @@ public class ListMotobike {
 
     public ListMotobike() {
         loadType();
-        changButtonState(false,true,false,false);
+        changeButtonState(false,true,false,false);
         btnNew.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,7 +37,43 @@ public class ListMotobike {
                 txtNameBike.setText("");
                 txtPriceBike.setText("");
                 txtYearModelBike.setText("");
-                changButtonState(false,true,false,false);
+                changeButtonState(false,true,false,false);
+                changeFieldStates(true);
+            }
+        });
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeFieldStates(true);
+                changeButtonState(true,false,true,true);
+            }
+        });
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String valid = MotobikeValidator.validate(txtNameBike, txtYearModelBike, txtPriceBike, cboTypeBike);
+                if (valid != null) {
+                    JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                try {
+                    Motobike entity = new Motobike();
+                    entity.setName(txtNameBike.getText());
+                    entity.setYearModel(Integer.parseInt(txtYearModelBike.getText()));
+                    entity.setPrice(Double.parseDouble(txtPriceBike.getText()));
+                    MotoType motoType = (MotoType) cboTypeBike.getSelectedItem();
+                    entity.setMotoType(motoType.getId());
+                    entity.setTypeName(motoType.getName());
+                    MotobikeDAO dao = new MotobikeDAO();
+                    entity = dao.insert(entity);
+                    txtIdBike.setText("" + entity.getId());
+                    JOptionPane.showMessageDialog(null, "Motobike is saved!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    changeButtonState(true, false,true,true);
+                    changeFieldStates(false);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -52,11 +91,17 @@ public class ListMotobike {
         }
     }
 
-    private void changButtonState(boolean edit, boolean save, boolean update, boolean delete) {
+    private void changeButtonState(boolean edit, boolean save, boolean update, boolean delete) {
         btnEdit.setEnabled(edit);
         btnSave.setEnabled(save);
         btnUpdate.setEnabled(update);
         btnDelete.setEnabled(update);
+    }
+    private void changeFieldStates(boolean isEditable) {
+        txtNameBike.setEditable(isEditable);
+        txtPriceBike.setEditable(isEditable);
+        cboTypeBike.setEditable(isEditable);
+        txtYearModelBike.setEditable(isEditable);
     }
 
     public void getListMotobike() {
