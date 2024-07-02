@@ -7,8 +7,10 @@ import org.example.entity.Motobike;
 import org.example.validator.MotobikeValidator;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ListMotobike {
     private JTextField txtIdBike;
@@ -25,9 +27,13 @@ public class ListMotobike {
     private JLabel lblimage;
     private JPanel listMotobikePanel;
 
+    private DefaultTableModel model = null;
+
     private static JFrame listMotobikeFrame = new JFrame();
 
     public ListMotobike() {
+        initTable();
+        loadData();
         loadType();
         changeButtonState(false,true,false,false);
         btnNew.addActionListener(new ActionListener() {
@@ -70,6 +76,7 @@ public class ListMotobike {
                     JOptionPane.showMessageDialog(null, "Motobike is saved!!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     changeButtonState(true, false,true,true);
                     changeFieldStates(false);
+                    loadData();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -85,6 +92,35 @@ public class ListMotobike {
             for (MotoType item : list) {
                 cboTypeBike.addItem(item);
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void initTable() {
+        model = new DefaultTableModel();
+        model.setColumnIdentifiers(new String[]{"ID", "Name", "Year Model", "Type ID", "Type Name", "Price"});
+        tbListMotobike.setModel(model);
+    }
+
+    private void loadData() {
+        try {
+            MotobikeDAO dao = new MotobikeDAO();
+            List<Motobike> list = dao.findAll();
+            model.setRowCount(0);
+            for (Motobike item : list) {
+                Object[] row = new Object[] {
+                        item.getId(),
+                        item.getName(),
+                        item.getYearModel(),
+                        item.getMotoType(),
+                        item.getTypeName(),
+                        item.getPrice(),
+                };
+                model.addRow(row);
+            }
+            model.fireTableDataChanged();
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
