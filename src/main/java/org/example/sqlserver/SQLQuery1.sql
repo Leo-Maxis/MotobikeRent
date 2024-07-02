@@ -211,8 +211,8 @@ CREATE TABLE [dbo].[Rent](
 	[MotoName] [nvarchar](50) NULL,
 	[Days] [int] NULL,
 	[Total] [money] NULL,
-	[StartDate] [date] NULL,
-	[EndDate] [date] NULL,
+	[StartDate] [yearModel] NULL,
+	[EndDate] [yearModel] NULL,
  CONSTRAINT [PK_Rent] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

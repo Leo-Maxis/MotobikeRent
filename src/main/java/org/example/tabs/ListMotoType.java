@@ -37,9 +37,7 @@ public class ListMotoType {
     }
     private void changFieldStates(boolean isEditable) {
         txtNameType.setEditable(isEditable);
-
     }
-
     public ListMotoType() {
         initTable();
         loadData();
