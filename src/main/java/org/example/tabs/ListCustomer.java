@@ -27,7 +27,14 @@ public class ListCustomer {
         tbListCustomer.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                int selectedRow = tbListCustomer.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object idObj = tbListCustomer.getValueAt(selectedRow,0);
+                    if(idObj != null) {
+                        int id = Integer.parseInt(idObj.toString());
+                        loadById(id);
+                    }
+                }
             }
         });
     }
@@ -53,6 +60,20 @@ public class ListCustomer {
                 model.addRow(row);
             }
             model.fireTableDataChanged();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadById(int id) {
+        try {
+            CustomerDAO dao = new CustomerDAO();
+            Customer entity = dao.findById(id);
+            lblId.setText(String.valueOf(entity.getId()));
+            lblName.setText(entity.getName());
+            lblPhoneNumber.setText(entity.getPhoneNumber());
+            lblCount.setText(String.valueOf(entity.getCount()));
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

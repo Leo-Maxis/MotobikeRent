@@ -29,4 +29,23 @@ public class CustomerDAO {
             return list;
         }
     }
+
+    public Customer findById(int id) throws SQLException, ClassNotFoundException {
+        String sql = "select * from customer where id =?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setInt(1, id);
+            try (ResultSet rs = ptsmt.executeQuery()) {
+                if (rs.next()) {
+                    Customer entity = new Customer();
+                    entity.setId(rs.getInt("id"));
+                    entity.setName(rs.getString("name"));
+                    entity.setPhoneNumber(rs.getString("phoneNumber"));
+                    entity.setCount(rs.getInt("count"));
+                    return entity;
+                }
+            }
+            return null;
+        }
+    }
 }
