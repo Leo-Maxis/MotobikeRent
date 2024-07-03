@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListCustomer {
@@ -88,4 +87,5 @@ public class ListCustomer {
         listCustomerFrame.setVisible(true);
         listCustomerFrame.setSize(700,600);
     }
+
 }
