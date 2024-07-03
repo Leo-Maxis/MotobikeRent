@@ -74,4 +74,26 @@ public class MotobikeDAO {
             return ptsmt.executeUpdate() > 0;
         }
     }
+
+    public Motobike findById(int id) throws SQLException, ClassNotFoundException {
+        String sql = " select * from motobike where id =?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            List<Motobike> list = new ArrayList<>();
+            ptsmt.setInt(1, id);
+            try (ResultSet rs = ptsmt.executeQuery()) {
+                if (rs.next()) {
+                    Motobike entity = new Motobike();
+                    entity.setId(rs.getInt("id"));
+                    entity.setName(rs.getString("name"));
+                    entity.setYearModel(rs.getInt("YearModel"));
+                    entity.setMotoType(rs.getInt("typeId"));
+                    entity.setTypeName(rs.getString("typeName"));
+                    entity.setPrice(rs.getDouble("price"));
+                    return entity;
+                }
+            }
+            return null;
+        }
+    }
 }

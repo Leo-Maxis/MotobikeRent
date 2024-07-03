@@ -10,13 +10,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ListMotobike {
     private JTextField txtIdBike;
     private JTextField txtNameBike;
     private JTextField txtYearModelBike;
-    private JComboBox cboTypeBike;
+    private JComboBox<MotoType> cboTypeBike;
     private JFormattedTextField txtPriceBike;
     private JButton btnDelete;
     private JButton btnUpdate;
@@ -147,6 +149,42 @@ public class ListMotobike {
                 }
             }
         });
+        tbListMotobike.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = tbListMotobike.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object idOjb = tbListMotobike.getValueAt(selectedRow, 0);
+                    if (idOjb != null) {
+                        int id = Integer.parseInt(idOjb.toString());
+                        loadById(id);
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadById(int id) {
+        try {
+            MotobikeDAO dao = new MotobikeDAO();
+            Motobike entity = dao.findById(id);
+            txtIdBike.setText("" + entity.getId());
+            txtNameBike.setText(entity.getName());
+            txtYearModelBike.setText(String.valueOf(entity.getYearModel()));
+            txtPriceBike.setText(String.valueOf(entity.getPrice()));
+            for (int i = 0; i < cboTypeBike.getItemCount(); i++) {
+                var item = cboTypeBike.getItemAt(i);
+                if (item.getId() == entity.getMotoType()) {
+                    cboTypeBike.setSelectedItem(item);
+                    break;
+                }
+            }
+            changeButtonState(true, false,true,true);
+            changeFieldStates(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void loadType() {
