@@ -11,11 +11,14 @@ import java.util.List;
 
 public class ListCustomer {
     private JTable tbListCustomer;
-    private JLabel lblId;
-    private JLabel lblName;
-    private JLabel lblPhoneNumber;
-    private JLabel lblCount;
     private JPanel customerPanel;
+    private JTextField txtID;
+    private JTextField txtName;
+    private JTextField txtPhoneNumber;
+    private JTextField txtCount;
+    private JButton btnDelete;
+    private JButton btnUpdate;
+    private JButton btnEdit;
 
     private DefaultTableModel model = null;
     private static JFrame listCustomerFrame = new JFrame("List Customer");
@@ -23,6 +26,8 @@ public class ListCustomer {
     public ListCustomer() {
         initTable();
         loadData();
+        changeFieldStatus(false, false);
+        changeButtonStatus(false, false, false);
         tbListCustomer.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -36,6 +41,22 @@ public class ListCustomer {
                 }
             }
         });
+    }
+    private void changeFieldStatus(boolean isEditable, boolean isEnabled) {
+        txtID.setEditable(false);
+        txtName.setEditable(isEditable);
+        txtPhoneNumber.setEditable(isEditable);
+        txtCount.setEditable(isEditable);
+        txtID.setEnabled(true);
+        txtName.setEnabled(isEnabled);
+        txtPhoneNumber.setEnabled(isEnabled);
+        txtCount.setEnabled(isEnabled);
+    }
+
+    private void changeButtonStatus(boolean edit, boolean update, boolean delete) {
+        btnEdit.setEnabled(edit);
+        btnUpdate.setEnabled(update);
+        btnDelete.setEnabled(delete);
     }
 
     private void initTable(){
@@ -69,10 +90,12 @@ public class ListCustomer {
         try {
             CustomerDAO dao = new CustomerDAO();
             Customer entity = dao.findById(id);
-            lblId.setText(String.valueOf(entity.getId()));
-            lblName.setText(entity.getName());
-            lblPhoneNumber.setText(entity.getPhoneNumber());
-            lblCount.setText(String.valueOf(entity.getCount()));
+            txtID.setText(String.valueOf(entity.getId()));
+            txtName.setText(entity.getName());
+            txtPhoneNumber.setText(entity.getPhoneNumber());
+            txtCount.setText(String.valueOf(entity.getCount()));
+            changeFieldStatus(false, true);
+            changeButtonStatus(true, true, true);
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
