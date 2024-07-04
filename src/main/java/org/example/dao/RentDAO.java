@@ -3,10 +3,7 @@ package org.example.dao;
 import org.example.database.DBHelper;
 import org.example.entity.Rent;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +60,28 @@ public class RentDAO {
                 }
             }
             return null;
+        }
+    }
+
+    public boolean update(Rent entity) throws SQLException, ClassNotFoundException {
+        String sql = "update rent set customerId =?, name =?, phoneNumber=?, cccd=?, address=?, motoId=?, motoName=?, days=?, total=?, startDate=?, endDate=? where id =?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setInt(1, entity.getCustomerId());
+            ptsmt.setString(2, entity.getCustomerName());
+            ptsmt.setString(3, entity.getPhoneNumber());
+            ptsmt.setString(4, entity.getCccd());
+            ptsmt.setString(5, entity.getAddress());
+            ptsmt.setInt(6, entity.getMotobikeId());
+            ptsmt.setString(7, entity.getMotobikeName());
+            ptsmt.setInt(8, entity.getDays());
+            ptsmt.setDouble(9, entity.getTotal());
+            java.sql.Date startDate = new Date(entity.getStartDate().getTime());
+            ptsmt.setDate(10, startDate);
+            java.sql.Date endDate = new Date(entity.getEndDate().getTime());
+            ptsmt.setDate(11, endDate);
+            ptsmt.setInt(12, entity.getId());
+            return ptsmt.executeUpdate() > 0;
         }
     }
 }

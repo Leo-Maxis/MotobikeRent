@@ -4,6 +4,8 @@ import org.example.dao.MotobikeDAO;
 import org.example.dao.RentDAO;
 import org.example.entity.Motobike;
 import org.example.entity.Rent;
+import org.example.util.DateUtil;
+import org.example.validator.CustomerValidator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -58,6 +60,48 @@ public class ListRent {
                         int id = Integer.parseInt(idObj.toString());
                         loadById(id);
                     }
+                }
+            }
+        });
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+//                    String valid = CustomerValidator.validate(txtName, txtPhoneNumber, txtCount);
+//                    if (valid != null) {
+//                        JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
+//                        return;
+//                    }
+                    Rent entity = new Rent();
+                    entity.setCustomerId(Integer.parseInt(txtCustomerId.getText()));
+                    entity.setCustomerName(txtCustomerName.getText());
+                    entity.setPhoneNumber(txtPhoneNumber.getText());
+                    entity.setCccd(txtCCCD.getText());
+                    entity.setAddress(txtAddress.getText());
+                    Motobike motobike = (Motobike) cbMotobikeName.getSelectedItem();
+                    entity.setMotobikeId(motobike.getId());
+                    entity.setMotobikeName(motobike.getName());
+                    entity.setDays(Integer.parseInt(txtDays.getText()));
+                    DateUtil dateUtil = new DateUtil();
+                    entity.setStartDate(dateUtil.toDate(txtStartDate.getText()));
+                    entity.setEndDate(dateUtil.toDate(txtReturnDate.getText()));
+                    entity.setId(Integer.parseInt(txtId.getText()));
+                    RentDAO dao = new RentDAO();
+                    var result = dao.update(entity);
+                    if (result) {
+                        JOptionPane.showMessageDialog(null, "Rent was updated!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Rent cannot be update!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    changeButtonStatus(true, true, true);
+                    changeFieldStatus(false, true);
+                    loadData();
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
