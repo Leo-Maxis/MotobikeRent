@@ -1,12 +1,16 @@
 package org.example.tabs;
 
+import org.example.dao.MotobikeDAO;
 import org.example.dao.RentDAO;
+import org.example.entity.Motobike;
 import org.example.entity.Rent;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ListRent {
@@ -17,7 +21,7 @@ public class ListRent {
     private JTextField txtPhoneNumber;
     private JTextField txtCCCD;
     private JTextField txtAddress;
-    private JComboBox cbMotobikeName;
+    private JComboBox<Motobike> cbMotobikeName;
     private JTextField txtDays;
     private JFormattedTextField txtTotal;
     private JTextField txtStartDate;
@@ -33,6 +37,7 @@ public class ListRent {
     public ListRent() {
         initTable();
         loadData();
+        loadType();
         changeButtonStatus(false,false,false);
         changeFieldStatus(false, false);
         btnEdit.addActionListener(new ActionListener() {
@@ -40,6 +45,20 @@ public class ListRent {
             public void actionPerformed(ActionEvent e) {
                 changeFieldStatus(true, true);
                 changeButtonStatus(true, true, true);
+            }
+        });
+
+        tbListRent.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = tbListRent.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object idObj = tbListRent.getValueAt(selectedRow,0);
+                    if (idObj != null) {
+                        int id = Integer.parseInt(idObj.toString());
+                        loadById(id);
+                    }
+                }
             }
         });
     }
@@ -71,6 +90,48 @@ public class ListRent {
                 model.addRow(row);
             }
             model.fireTableDataChanged();
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadType() {
+        try {
+            MotobikeDAO dao = new MotobikeDAO();
+            var list = dao.findAll();
+            for (Motobike item : list) {
+                cbMotobikeName.addItem(item);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadById(int id) {
+        try {
+            RentDAO dao = new RentDAO();
+            Rent entity = dao.findById(id);
+            txtId.setText(String.valueOf(entity.getId()));
+            txtCustomerId.setText(String.valueOf(entity.getCustomerId()));
+            txtCustomerName.setText(entity.getCustomerName());
+            txtPhoneNumber.setText(entity.getPhoneNumber());
+            txtCCCD.setText(entity.getCccd());
+            txtAddress.setText(entity.getAddress());
+            for (int i = 0; i < cbMotobikeName.getItemCount(); i++) {
+                Motobike item = cbMotobikeName.getItemAt(i);
+                if (item.getId() == entity.getMotobikeId()) {
+                    cbMotobikeName.setSelectedItem(item);
+                    break;
+                }
+            }
+            txtDays.setText(String.valueOf(entity.getDays()));
+            txtTotal.setText(String.valueOf(entity.getTotal()));
+            txtStartDate.setText(String.valueOf(entity.getStartDate()));
+            txtReturnDate.setText(String.valueOf(entity.getEndDate()));
+            changeButtonStatus(true, true, true);
+            changeFieldStatus(false, true);
         }catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

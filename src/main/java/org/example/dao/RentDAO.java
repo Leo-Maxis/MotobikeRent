@@ -42,6 +42,7 @@ public class RentDAO {
         String sql = "select * from rent where id =?";
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            List<Rent> list = new ArrayList<>();
             ptsmt.setInt(1, id);
             try (ResultSet rs = ptsmt.executeQuery()) {
                 if (rs.next()) {
