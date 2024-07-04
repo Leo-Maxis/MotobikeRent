@@ -2,9 +2,12 @@ package org.example.tabs;
 
 import org.example.dao.CustomerDAO;
 import org.example.entity.Customer;
+import org.example.validator.CustomerValidator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -38,6 +41,47 @@ public class ListCustomer {
                         int id = Integer.parseInt(idObj.toString());
                         loadById(id);
                     }
+                }
+            }
+        });
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeButtonStatus(true, true, true);
+                changeFieldStatus(true, true);
+            }
+        });
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    String valid = CustomerValidator.validate(txtName, txtPhoneNumber, txtCount);
+                    if (valid != null) {
+                        JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    Customer entity = new Customer();
+                    entity.setName(txtName.getText());
+                    entity.setPhoneNumber(txtPhoneNumber.getText());
+                    entity.setCount(Integer.parseInt(txtCount.getText()));
+                    entity.setId(Integer.parseInt(txtID.getText()));
+                    CustomerDAO dao = new CustomerDAO();
+                    var result = dao.update(entity);
+                    if (result) {
+                        JOptionPane.showMessageDialog(null, "Customer is updated!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Customer cannot be update!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    changeFieldStatus(false,false);
+                    changeButtonStatus(true, true, true);
+                    loadData();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

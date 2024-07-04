@@ -11,6 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAO {
+    public boolean update(Customer entity) throws SQLException, ClassNotFoundException {
+        String sql = "update customer set name=?, PhoneNumber=?, count=? where id=?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptmst = conn.prepareStatement(sql)) {
+            ptmst.setString(1, entity.getName());
+            ptmst.setString(2, entity.getPhoneNumber());
+            ptmst.setInt(3, entity.getCount());
+            ptmst.setInt(4, entity.getId());
+            return ptmst.executeUpdate() > 0;
+        }
+    }
+
+    public boolean delete(int id) throws SQLException, ClassNotFoundException {
+        String sql = "delete from customer where id =?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setInt(1, id);
+            return ptsmt.executeUpdate() > 0;
+        }
+    }
+
     public List<Customer> findAll() throws SQLException, ClassNotFoundException {
         String sql = "select * from customer";
         try (Connection conn = DBHelper.getConnection();
