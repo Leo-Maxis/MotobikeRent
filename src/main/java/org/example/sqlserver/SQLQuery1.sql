@@ -155,7 +155,7 @@ CREATE TABLE [dbo].[Motobike](
 	[YearModel] [int] NULL,
 	[TypeId] [int] NULL,
 	[TypeName] [nvarchar](150) NULL,
-	[Price] [money] NULL,
+	[Price] [total] NULL,
  CONSTRAINT [PK_Motobike] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -210,7 +210,7 @@ CREATE TABLE [dbo].[Rent](
 	[MotoID] [int] NULL,
 	[MotoName] [nvarchar](50) NULL,
 	[Days] [int] NULL,
-	[Total] [money] NULL,
+	[Total] [total] NULL,
 	[StartDate] [yearModel] NULL,
 	[EndDate] [yearModel] NULL,
  CONSTRAINT [PK_Rent] PRIMARY KEY CLUSTERED 

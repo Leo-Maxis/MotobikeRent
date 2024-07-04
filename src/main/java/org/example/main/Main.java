@@ -1,9 +1,6 @@
 package org.example.main;
 
-import org.example.tabs.ListCustomer;
-import org.example.tabs.ListMotoType;
-import org.example.tabs.ListMotobike;
-import org.example.tabs.Login;
+import org.example.tabs.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +13,7 @@ public class Main {
     private JMenuItem mnListMotoType;
     private JMenuItem mnListMotobike;
     private JMenuItem mnListCustomer;
+    private JMenuItem mnListRent;
 
     public Main() {
         mnListMotoType.addActionListener(new ActionListener() {
@@ -37,6 +35,13 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 ListCustomer listCustomer = new ListCustomer();
                 listCustomer.getListCustomerFrame();
+            }
+        });
+        mnListRent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListRent listRent = new ListRent();
+                listRent.getListRentPanel();
             }
         });
     }
