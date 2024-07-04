@@ -85,6 +85,39 @@ public class ListCustomer {
                 }
             }
         });
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    String valid = CustomerValidator.validate(txtName, txtPhoneNumber, txtCount);
+                    if (valid != null) {
+                        JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    int id = Integer.parseInt(txtID.getText());
+                    CustomerDAO dao = new CustomerDAO();
+                    var result = dao.delete(id);
+                    if (result) {
+                        JOptionPane.showMessageDialog(null, "Customer was deleted!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Customer cannot be delete!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    changeButtonStatus(false, false, false);
+                    changeFieldStatus(false, false);
+                    loadData();
+                    txtID.setText("");
+                    txtName.setText("");
+                    txtCount.setText("");
+                    txtPhoneNumber.setText("");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
     private void changeFieldStatus(boolean isEditable, boolean isEnabled) {
         txtID.setEditable(false);
