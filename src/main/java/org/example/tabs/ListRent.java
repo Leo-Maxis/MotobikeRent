@@ -85,6 +85,7 @@ public class ListRent {
                     entity.setMotobikeId(motobike.getId());
                     entity.setMotobikeName(motobike.getName());
                     entity.setDays(Integer.parseInt(txtDays.getText()));
+                    entity.setTotal(Double.parseDouble(txtTotal.getText()));
                     DateUtil dateUtil = new DateUtil();
                     entity.setStartDate(dateUtil.toDate(txtStartDate.getText()));
                     entity.setEndDate(dateUtil.toDate(txtReturnDate.getText()));
@@ -98,6 +99,40 @@ public class ListRent {
                     }
                     changeButtonStatus(true, true, true);
                     changeFieldStatus(false, true);
+                    loadData();
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Do you want to delete?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    int id = Integer.parseInt(txtId.getText());
+                    RentDAO dao = new RentDAO();
+                    var result = dao.delete(id);
+                    if (result) {
+                        JOptionPane.showMessageDialog(null, "Rent was deleted!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } else  {
+                        JOptionPane.showMessageDialog(null, "Rent cannot be delete!!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    changeButtonStatus(false, false, false);
+                    changeFieldStatus(false, false);
+                    txtId.setText("");
+                    txtCustomerId.setText("");
+                    txtCustomerName.setText("");
+                    txtPhoneNumber.setText("");
+                    txtCCCD.setText("");
+                    txtAddress.setText("");
+                    txtDays.setText("");
+                    txtTotal.setText("");
+                    txtReturnDate.setText("");
+                    txtStartDate.setText("");
                     loadData();
                 }catch (Exception ex) {
                     ex.printStackTrace();
@@ -217,8 +252,8 @@ public class ListRent {
         listRentFrame.setContentPane(new ListRent().listRentPanel);
         listRentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         listRentFrame.setLocationRelativeTo(null);
-        listRentFrame.setSize(700,600);
         listRentFrame.pack();
         listRentFrame.setVisible(true);
+        listRentFrame.setSize(700,600);
     }
 }
