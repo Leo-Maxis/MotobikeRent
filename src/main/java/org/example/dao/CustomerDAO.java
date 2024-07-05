@@ -69,4 +69,20 @@ public class CustomerDAO {
             return null;
         }
     }
+
+    public Customer insert(Customer entity) throws SQLException, ClassNotFoundException {
+        String sql = "insert into customer (name, phoneNumber, count) values (?,?,?)";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ptsmt.setString(1, entity.getName());
+            ptsmt.setString(2, entity.getPhoneNumber());
+            ptsmt.setInt(3, entity.getCount());
+            ptsmt.executeUpdate();
+            ResultSet rs = ptsmt.getGeneratedKeys();
+            if (rs.next()) {
+                entity.setId(rs.getInt(1));
+            }
+            return entity;
+        }
+    }
 }
