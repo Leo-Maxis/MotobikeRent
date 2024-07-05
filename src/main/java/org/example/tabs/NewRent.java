@@ -18,7 +18,7 @@ public class NewRent {
     private JTextField txtReturnDate;
     private JButton btnCancel;
     private JButton btnSave;
-    private JCheckBox alreadyCustomerCheckBox;
+    private JCheckBox cbAlreadyCustomer;
     private JButton btnEdit;
     private JPanel newRentPanel;
 
@@ -40,7 +40,7 @@ public class NewRent {
                 txtTotal.setText("");
                 txtStartDate.setText("");
                 txtReturnDate.setText("");
-                alreadyCustomerCheckBox.setSelected(false);
+                cbAlreadyCustomer.setSelected(false);
             }
         });
         btnEdit.addActionListener(new ActionListener() {
@@ -69,6 +69,8 @@ public class NewRent {
         txtTotal.setEnabled(isEnable);
         txtStartDate.setEnabled(isEnable);
         txtReturnDate.setEnabled(isEnable);
+        cbMotobikeName.setEnabled(isEnable);
+        cbAlreadyCustomer.setEnabled(isEnable);
 
         txtId.setEditable(false);
         txtCustomerId.setEditable(isEditTabel);
@@ -80,6 +82,7 @@ public class NewRent {
         txtTotal.setEditable(isEditTabel);
         txtStartDate.setEditable(isEditTabel);
         txtReturnDate.setEditable(isEditTabel);
+        cbMotobikeName.setEditable(false);
 
     }
 
