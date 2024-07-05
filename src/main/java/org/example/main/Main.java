@@ -14,6 +14,7 @@ public class Main {
     private JMenuItem mnListRent;
     private JTabbedPane tabbedPane1;
     private JTable tbListRenting;
+    private JMenuItem mnNew;
 
     public Main() {
         mnListMotoType.addActionListener(new ActionListener() {
@@ -42,6 +43,13 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 ListRent listRent = new ListRent();
                 listRent.getListRentPanel();
+            }
+        });
+        mnNew.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NewRent newRent = new NewRent();
+                newRent.getNewRentPanel();
             }
         });
     }
