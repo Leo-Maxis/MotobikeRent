@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="newRentPanel" layout-manager="GridLayoutManager" row-count="10" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="906" height="587"/>
+      <xy x="20" y="20" width="966" height="587"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -281,30 +281,6 @@
               <visible value="true"/>
             </properties>
           </component>
-          <component id="a77aa" class="javax.swing.JTextField" binding="txtCustomerName">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="3e289" class="javax.swing.JTextField" binding="txtPhoneNumber">
-            <constraints>
-              <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="83be" class="javax.swing.JTextField" binding="txtCCCD">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="bc5" class="javax.swing.JTextField" binding="txtAddress">
             <constraints>
               <grid row="5" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -390,6 +366,30 @@
               </grid>
             </constraints>
             <properties/>
+          </component>
+          <component id="411ce" class="javax.swing.JComboBox" binding="cboCustomerName">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <editable value="true"/>
+            </properties>
+          </component>
+          <component id="79f6b" class="javax.swing.JComboBox" binding="cboPhoneNumber">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <editable value="true"/>
+            </properties>
+          </component>
+          <component id="65e9a" class="javax.swing.JComboBox" binding="cboCCCD">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <editable value="true"/>
+            </properties>
           </component>
         </children>
       </grid>

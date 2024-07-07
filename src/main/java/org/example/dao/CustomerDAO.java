@@ -23,6 +23,15 @@ public class CustomerDAO {
         }
     }
 
+    public boolean updateCount(Customer entity) throws SQLException, ClassNotFoundException {
+        String sql = "update customer set count=count + 1 where id=?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptmst = conn.prepareStatement(sql)) {
+            ptmst.setInt(1, entity.getId());
+            return ptmst.executeUpdate() > 0;
+        }
+    }
+
     public boolean delete(int id) throws SQLException, ClassNotFoundException {
         String sql = "delete from customer where id =?";
         try (Connection conn = DBHelper.getConnection();
@@ -63,6 +72,38 @@ public class CustomerDAO {
                     entity.setName(rs.getString("name"));
                     entity.setPhoneNumber(rs.getString("phoneNumber"));
                     entity.setCount(rs.getInt("count"));
+                    return entity;
+                }
+            }
+            return null;
+        }
+    }
+
+    public Customer findID(String name, String phoneNumber) throws SQLException, ClassNotFoundException {
+        String sql = "select id from customer where name =? and phoneNumber =?";
+        try(Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setString(1, name);
+            ptsmt.setString(2, phoneNumber);
+            try (ResultSet rs = ptsmt.executeQuery()) {
+                if (rs.next()) {
+                    Customer entity = new Customer();
+                    entity.setId(rs.getInt("id"));
+                    return entity;
+                }
+            }
+            return null;
+        }
+    }
+    public Customer findPhoneNumber(String name) throws SQLException, ClassNotFoundException {
+        String sql = "select phoneNumber from customer where name =?";
+        try(Connection conn = DBHelper.getConnection();
+            PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            ptsmt.setString(1, name);
+            try (ResultSet rs = ptsmt.executeQuery()) {
+                if (rs.next()) {
+                    Customer entity = new Customer();
+                    entity.setPhoneNumber(rs.getString("phoneNumber"));
                     return entity;
                 }
             }
