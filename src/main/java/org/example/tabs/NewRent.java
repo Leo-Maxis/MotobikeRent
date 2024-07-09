@@ -85,16 +85,10 @@ public class NewRent {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (cbAlreadyCustomer.isSelected()) {
-                                Customer customer = (Customer) cboCustomerName.getSelectedItem();
-                                txtId.setText(String.valueOf(customer.getId()));
-                                txtPhoneNumber.setText(customer.getPhoneNumber());
                                 updateCustomer();
                                 insertRent();
                             } else {
                                 insertCustomer();
-                                Customer customer = (Customer) cboCustomerName.getSelectedItem();
-                                txtId.setText(String.valueOf(customer.getId()));
-                                txtPhoneNumber.setText(customer.getPhoneNumber());
                                 insertRent();
                             }
                         }
