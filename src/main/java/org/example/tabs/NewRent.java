@@ -16,7 +16,6 @@ import java.awt.event.*;
 public class NewRent {
     private JTextField txtId;
     private JTextField txtCustomerId;
-    private JTextField txtPhoneNumber;
     private JTextField txtCCCD;
     private JTextField txtAddress;
     private JComboBox cbMotobikeName;
@@ -29,9 +28,8 @@ public class NewRent {
     private JCheckBox cbAlreadyCustomer;
     private JButton btnEdit;
     private JPanel newRentPanel;
-    private JComboBox cboCustomerName;
-    private JComboBox cboPhoneNumber;
-    private JComboBox cboCCCD;
+    private JComboBox<Customer> cboCustomerName;
+    private JTextField txtPhoneNumber;
 
     private static JFrame newRentFrame = new JFrame("Add New Rent");
 
@@ -44,7 +42,6 @@ public class NewRent {
             public void actionPerformed(ActionEvent e) {
                 if (cbAlreadyCustomer.isSelected()) {
                     loadCboCustomer();
-                    loadCustomerPhone(cboCustomerName.getSelectedItem().toString());
                 }
                 else {
                     cboCustomerName.removeAllItems();
@@ -57,7 +54,6 @@ public class NewRent {
                 txtId.setText("");
                 txtCustomerId.setText("");
                 cboCustomerName.setSelectedItem(null);
-                txtPhoneNumber.setText("");
                 txtCCCD.setText("");
                 txtAddress.setText("");
                 txtDays.setText("");
@@ -85,22 +81,39 @@ public class NewRent {
                         JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    if (cbAlreadyCustomer.isSelected()) {
-                        loadCustomer(cboCustomerName.getSelectedItem().toString(), txtPhoneNumber.getText());
-                        updateCustomer();
-                        insertRent();
-                    } else {
-                        String customerName = ((JTextField)cboCustomerName.getEditor().getEditorComponent()).getText();
-                        insertCustomer();
-                        loadCustomer(customerName, txtPhoneNumber.getText());
-                        insertRent();
-                    }
+                    cbAlreadyCustomer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (cbAlreadyCustomer.isSelected()) {
+                                Customer customer = (Customer) cboCustomerName.getSelectedItem();
+                                txtId.setText(String.valueOf(customer.getId()));
+                                txtPhoneNumber.setText(customer.getPhoneNumber());
+                                updateCustomer();
+                                insertRent();
+                            } else {
+                                insertCustomer();
+                                Customer customer = (Customer) cboCustomerName.getSelectedItem();
+                                txtId.setText(String.valueOf(customer.getId()));
+                                txtPhoneNumber.setText(customer.getPhoneNumber());
+                                insertRent();
+                            }
+                        }
+                    });
+                    JOptionPane.showMessageDialog(null, "Rent was saved!!!", "Infomation", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 changeFieldStatus(false, false);
                 changeButtonState(true, false, true);
+            }
+        });
+        cboCustomerName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Customer customer = (Customer) cboCustomerName.getSelectedItem();
+                int id = customer.getId();
+                loadIdCustomer(id);
             }
         });
     }
@@ -117,25 +130,15 @@ public class NewRent {
         }
     }
 
-    private void loadCustomer(String name, String phoneNumber) {
+    private void loadIdCustomer(int id) {
         try {
             CustomerDAO dao = new CustomerDAO();
-            Customer entity = dao.findID(name, phoneNumber);
+            Customer entity = dao.findById(id);
             txtCustomerId.setText(String.valueOf(entity.getId()));
-        }catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void loadCustomerPhone(String name) {
-        try {
-            CustomerDAO dao = new CustomerDAO();
-            Customer entity = dao.findPhoneNumber(name);
-            cboPhoneNumber.setSelectedItem(String.valueOf(entity.getId()));
-        }catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            txtPhoneNumber.setText(entity.getPhoneNumber());
+        }catch (Exception exception) {
+            exception.printStackTrace();
+            JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -242,17 +245,18 @@ public class NewRent {
         txtReturnDate.setEnabled(isEnable);
         cbMotobikeName.setEnabled(isEnable);
         cbAlreadyCustomer.setEnabled(isEnable);
+        txtPhoneNumber.setEditable(isEnable);
 
         txtId.setEditable(false);
         txtCustomerId.setEditable(false);
         cboCustomerName.setEditable(isEditTabel);
-        txtPhoneNumber.setEditable(isEditTabel);
         txtCCCD.setEditable(isEditTabel);
         txtAddress.setEditable(isEditTabel);
         txtDays.setEditable(isEditTabel);
         txtTotal.setEditable(isEditTabel);
         txtStartDate.setEditable(isEditTabel);
         txtReturnDate.setEditable(isEditTabel);
+        txtPhoneNumber.setEditable(isEditTabel);
         cbMotobikeName.setEditable(false);
 
     }

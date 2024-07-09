@@ -79,38 +79,6 @@ public class CustomerDAO {
         }
     }
 
-    public Customer findID(String name, String phoneNumber) throws SQLException, ClassNotFoundException {
-        String sql = "select id from customer where name =? and phoneNumber =?";
-        try(Connection conn = DBHelper.getConnection();
-             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
-            ptsmt.setString(1, name);
-            ptsmt.setString(2, phoneNumber);
-            try (ResultSet rs = ptsmt.executeQuery()) {
-                if (rs.next()) {
-                    Customer entity = new Customer();
-                    entity.setId(rs.getInt("id"));
-                    return entity;
-                }
-            }
-            return null;
-        }
-    }
-    public Customer findPhoneNumber(String name) throws SQLException, ClassNotFoundException {
-        String sql = "select phoneNumber from customer where name =?";
-        try(Connection conn = DBHelper.getConnection();
-            PreparedStatement ptsmt = conn.prepareStatement(sql)) {
-            ptsmt.setString(1, name);
-            try (ResultSet rs = ptsmt.executeQuery()) {
-                if (rs.next()) {
-                    Customer entity = new Customer();
-                    entity.setPhoneNumber(rs.getString("phoneNumber"));
-                    return entity;
-                }
-            }
-            return null;
-        }
-    }
-
     public Customer insert(Customer entity) throws SQLException, ClassNotFoundException {
         String sql = "insert into customer (name, phoneNumber, count) values (?,?,?)";
         try (Connection conn = DBHelper.getConnection();
