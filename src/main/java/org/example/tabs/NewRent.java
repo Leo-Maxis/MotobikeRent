@@ -11,7 +11,6 @@ import org.example.validator.RentValidator;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Objects;
 
 public class NewRent {
     private JTextField txtId;

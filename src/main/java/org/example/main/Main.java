@@ -101,12 +101,23 @@ public class Main {
                 txtEndDate.setText("");
                 txtPhoneNumber.setText("");
                 txtMotobike.setText("");
+                loadData();
             }
         });
         reloadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadData();
+            }
+        });
+        payButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tbListRenting.getSelectedRow();
+                if (selectedRow == -1 || txtEndDate.getText().equals("null")) {
+                    JOptionPane.showMessageDialog(null, " Please chose at least one row want to pay and enter the return date before pay!!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -171,7 +182,7 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        frame.setSize(800,550);
+        frame.setSize(850,600);
         //Login form
         Login loginform = new Login();
         loginform.getLoginForm();
