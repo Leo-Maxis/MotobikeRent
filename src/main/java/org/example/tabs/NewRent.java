@@ -48,14 +48,23 @@ public class NewRent {
                     cboCustomerName.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            Customer customer = (Customer) cboCustomerName.getSelectedItem();
-                            int id = customer.getId();
-                            loadIdCustomer(id);
+                            if (cbAlreadyCustomer.isSelected()) {
+                                Customer customer = (Customer) cboCustomerName.getSelectedItem();
+                                int id = customer.getId();
+                                loadIdCustomer(id);
+                            }
+                            else {
+                                cboCustomerName.removeAllItems();
+                                txtCustomerId.setText("");
+                                txtPhoneNumber.setText("");
+                            }
                         }
                     });
                 }
                 else {
                     cboCustomerName.removeAllItems();
+                    txtCustomerId.setText("");
+                    txtPhoneNumber.setText("");
                 }
             }
         });
@@ -72,6 +81,7 @@ public class NewRent {
                 ftfStartDate.setText("");
                 ftfReturnDate.setText("");
                 cbAlreadyCustomer.setSelected(false);
+                txtPhoneNumber.setText("");
                 changeButtonState(true, false, false);
                 changeFieldStatus(false, true);
             }

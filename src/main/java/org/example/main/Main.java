@@ -1,7 +1,6 @@
 package org.example.main;
 
 import org.example.dao.RentDAO;
-import org.example.entity.Motobike;
 import org.example.entity.Rent;
 import org.example.tabs.*;
 
@@ -34,6 +33,7 @@ public class Main {
     private JLabel txtStartDate;
     private JButton cancelButton;
     private JButton payButton;
+    private JButton reloadDataButton;
 
     private DefaultTableModel model = null;
 
@@ -101,6 +101,12 @@ public class Main {
                 txtEndDate.setText("");
                 txtPhoneNumber.setText("");
                 txtMotobike.setText("");
+            }
+        });
+        reloadDataButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadData();
             }
         });
     }
