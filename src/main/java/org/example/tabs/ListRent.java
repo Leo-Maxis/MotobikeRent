@@ -5,7 +5,6 @@ import org.example.dao.RentDAO;
 import org.example.entity.Motobike;
 import org.example.entity.Rent;
 import org.example.util.DateUtil;
-import org.example.validator.CustomerValidator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -70,11 +69,6 @@ public class ListRent {
                     if (JOptionPane.showConfirmDialog(null, "Do you want to update?", "Confirm Message", JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
                         return;
                     }
-//                    String valid = CustomerValidator.validate(txtName, txtPhoneNumber, txtCount);
-//                    if (valid != null) {
-//                        JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
-//                        return;
-//                    }
                     Rent entity = new Rent();
                     entity.setCustomerId(Integer.parseInt(txtCustomerId.getText()));
                     entity.setCustomerName(txtCustomerName.getText());
@@ -82,8 +76,8 @@ public class ListRent {
                     entity.setCccd(txtCCCD.getText());
                     entity.setAddress(txtAddress.getText());
                     Motobike motobike = (Motobike) cbMotobikeName.getSelectedItem();
-                    entity.setMotobikeId(motobike.getId());
-                    entity.setMotobikeName(motobike.getName());
+                    entity.setMotoId(motobike.getId());
+                    entity.setMotoName(motobike.getName());
                     entity.setDays(Integer.parseInt(txtDays.getText()));
                     entity.setTotal(Double.parseDouble(txtTotal.getText()));
                     DateUtil dateUtil = new DateUtil();
@@ -160,7 +154,7 @@ public class ListRent {
                         item.getPhoneNumber(),
                         item.getCccd(),
                         item.getAddress(),
-                        item.getMotobikeName(),
+                        item.getMotoName(),
                         item.getDays(),
                         item.getTotal(),
                         item.getStartDate(),
@@ -200,7 +194,7 @@ public class ListRent {
             txtAddress.setText(entity.getAddress());
             for (int i = 0; i < cbMotobikeName.getItemCount(); i++) {
                 Motobike item = cbMotobikeName.getItemAt(i);
-                if (item.getId() == entity.getMotobikeId()) {
+                if (item.getId() == entity.getMotoId()) {
                     cbMotobikeName.setSelectedItem(item);
                     break;
                 }

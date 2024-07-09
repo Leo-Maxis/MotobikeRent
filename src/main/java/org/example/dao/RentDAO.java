@@ -22,8 +22,35 @@ public class RentDAO {
                     entity.setPhoneNumber(rs.getString("PhoneNumber"));
                     entity.setCccd(rs.getString("cccd"));
                     entity.setAddress(rs.getString("Address"));
-                    entity.setMotobikeId(rs.getInt("motoId"));
-                    entity.setMotobikeName(rs.getString("motoName"));
+                    entity.setMotoId(rs.getInt("motoId"));
+                    entity.setMotoName(rs.getString("motoName"));
+                    entity.setDays(rs.getInt("days"));
+                    entity.setTotal(rs.getDouble("total"));
+                    entity.setStartDate(rs.getDate("startDate"));
+                    entity.setEndDate(rs.getDate("endDate"));
+                    list.add(entity);
+                }
+            }
+            return list;
+        }
+    }
+
+    public List<Rent> findNull() throws SQLException, ClassNotFoundException {
+        String sql = "select * from rent where EndDate is null";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            List<Rent> list = new ArrayList<>();
+            try (ResultSet rs = ptsmt.executeQuery()) {
+                while (rs.next()) {
+                    Rent entity = new Rent();
+                    entity.setId(rs.getInt("id"));
+                    entity.setCustomerId(rs.getInt("CustomerId"));
+                    entity.setCustomerName(rs.getString("name"));
+                    entity.setPhoneNumber(rs.getString("PhoneNumber"));
+                    entity.setCccd(rs.getString("cccd"));
+                    entity.setAddress(rs.getString("Address"));
+                    entity.setMotoId(rs.getInt("motoId"));
+                    entity.setMotoName(rs.getString("motoName"));
                     entity.setDays(rs.getInt("days"));
                     entity.setTotal(rs.getDouble("total"));
                     entity.setStartDate(rs.getDate("startDate"));
@@ -50,8 +77,8 @@ public class RentDAO {
                     entity.setPhoneNumber(rs.getString("PhoneNumber"));
                     entity.setCccd(rs.getString("cccd"));
                     entity.setAddress(rs.getString("Address"));
-                    entity.setMotobikeId(rs.getInt("motoId"));
-                    entity.setMotobikeName(rs.getString("motoName"));
+                    entity.setMotoId(rs.getInt("motoId"));
+                    entity.setMotoName(rs.getString("motoName"));
                     entity.setDays(rs.getInt("days"));
                     entity.setTotal(rs.getDouble("total"));
                     entity.setStartDate(rs.getDate("startDate"));
@@ -72,8 +99,8 @@ public class RentDAO {
             ptsmt.setString(3, entity.getPhoneNumber());
             ptsmt.setString(4, entity.getCccd());
             ptsmt.setString(5, entity.getAddress());
-            ptsmt.setInt(6, entity.getMotobikeId());
-            ptsmt.setString(7, entity.getMotobikeName());
+            ptsmt.setInt(6, entity.getMotoId());
+            ptsmt.setString(7, entity.getMotoName());
             ptsmt.setInt(8, entity.getDays());
             ptsmt.setDouble(9, entity.getTotal());
             java.sql.Date startDate = new Date(entity.getStartDate().getTime());
@@ -95,7 +122,7 @@ public class RentDAO {
     }
 
     public Rent insert(Rent entity) throws SQLException, ClassNotFoundException {
-        String sql = "insert into rent (customerId, name, phoneNumber, cccd, address, motoId, motoName, days, total, startDate, endDate values (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into rent (customerId, name, phoneNumber, cccd, address, motoId, motoName, days, total, startDate, endDate) values (?,?,?,?,?,?,?,?,?,?, null)";
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement ptmst = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ptmst.setInt(1, entity.getCustomerId());
@@ -103,14 +130,14 @@ public class RentDAO {
             ptmst.setString(3, entity.getPhoneNumber());
             ptmst.setString(4, entity.getCccd());
             ptmst.setString(5, entity.getAddress());
-            ptmst.setInt(6, entity.getMotobikeId());
-            ptmst.setString(7, entity.getMotobikeName());
+            ptmst.setInt(6, entity.getMotoId());
+            ptmst.setString(7, entity.getMotoName());
             ptmst.setInt(8, entity.getDays());
             ptmst.setDouble(9, entity.getTotal());
             java.sql.Date startDate = new Date(entity.getStartDate().getTime());
             ptmst.setDate(10, startDate);
-            java.sql.Date endDate = new Date(entity.getEndDate().getTime());
-            ptmst.setDate(11, endDate);
+//            java.sql.Date endDate = new Date(entity.getEndDate().getTime());
+//            ptmst.setDate(11, endDate);
             ptmst.executeUpdate();
 
             ResultSet rs = ptmst.getGeneratedKeys();

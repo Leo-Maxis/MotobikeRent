@@ -10,8 +10,8 @@ public class Rent implements Serializable {
     private String phoneNumber;
     private String cccd;
     private String address;
-    private int motobikeId;
-    private String motobikeName;
+    private int motoId;
+    private String motoName;
     private int days;
     private double total;
     private Date startDate;
@@ -20,15 +20,15 @@ public class Rent implements Serializable {
     public Rent() {
     }
 
-    public Rent(int id, int customerId, String customerName, String phoneNumber, String cccd, String address, int motobikeId, String motobikeName, int days, double total, Date startDate, Date endDate) {
+    public Rent(int id, int customerId, String customerName, String phoneNumber, String cccd, String address, int motoId, String motoName, int days, double total, Date startDate, Date endDate) {
         this.id = id;
         this.customerId = customerId;
         this.customerName = customerName;
         this.phoneNumber = phoneNumber;
         this.cccd = cccd;
         this.address = address;
-        this.motobikeId = motobikeId;
-        this.motobikeName = motobikeName;
+        this.motoId = motoId;
+        this.motoName = motoName;
         this.days = days;
         this.total = total;
         this.startDate = startDate;
@@ -83,20 +83,20 @@ public class Rent implements Serializable {
         this.address = address;
     }
 
-    public int getMotobikeId() {
-        return motobikeId;
+    public int getMotoId() {
+        return motoId;
     }
 
-    public void setMotobikeId(int motobikeId) {
-        this.motobikeId = motobikeId;
+    public void setMotoId(int motoId) {
+        this.motoId = motoId;
     }
 
-    public String getMotobikeName() {
-        return motobikeName;
+    public String getMotoName() {
+        return motoName;
     }
 
-    public void setMotobikeName(String motobikeName) {
-        this.motobikeName = motobikeName;
+    public void setMotoName(String motoName) {
+        this.motoName = motoName;
     }
 
     public int getDays() {

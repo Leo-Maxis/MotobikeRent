@@ -48,26 +48,6 @@ public class Login {
                 }
             }
         });
-//        rememberMeCheckBox.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String username = txtUsername.getText();
-//                String password = "";
-//                for(char c: txtPassword.getPassword()){
-//                    password+= c;
-//                }
-//                if(rememberMeCheckBox.isSelected()) {
-//                    username = txtUsername.getText();
-//                    for(char c: txtPassword.getPassword()){
-//                        password+= c;
-//                    }
-//                }
-//                else {
-//                    txtUsername.setText("");
-//                    txtPassword.setText("");
-//                }
-//            }
-//        });
     }
 
     private void loginUser(String username, String password) throws SQLException, ClassNotFoundException {

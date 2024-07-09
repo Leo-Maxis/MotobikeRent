@@ -4,7 +4,6 @@ import org.example.dao.CustomerDAO;
 import org.example.dao.MotobikeDAO;
 import org.example.dao.RentDAO;
 import org.example.entity.Customer;
-import org.example.entity.MotoType;
 import org.example.entity.Motobike;
 import org.example.entity.Rent;
 import org.example.util.DateUtil;
@@ -12,6 +11,7 @@ import org.example.validator.RentValidator;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class NewRent {
     private JTextField txtId;
@@ -21,8 +21,6 @@ public class NewRent {
     private JComboBox cbMotobikeName;
     private JTextField txtDays;
     private JFormattedTextField txtTotal;
-    private JTextField txtStartDate;
-    private JTextField txtReturnDate;
     private JButton btnCancel;
     private JButton btnSave;
     private JCheckBox cbAlreadyCustomer;
@@ -30,6 +28,8 @@ public class NewRent {
     private JPanel newRentPanel;
     private JComboBox<Customer> cboCustomerName;
     private JTextField txtPhoneNumber;
+    private JFormattedTextField ftfStartDate;
+    private JFormattedTextField ftfReturnDate;
 
     private static JFrame newRentFrame = new JFrame("Add New Rent");
 
@@ -42,6 +42,17 @@ public class NewRent {
             public void actionPerformed(ActionEvent e) {
                 if (cbAlreadyCustomer.isSelected()) {
                     loadCboCustomer();
+                    Customer customer = (Customer) cboCustomerName.getSelectedItem();
+                    int id = customer.getId();
+                    loadIdCustomer(id);
+                    cboCustomerName.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Customer customer = (Customer) cboCustomerName.getSelectedItem();
+                            int id = customer.getId();
+                            loadIdCustomer(id);
+                        }
+                    });
                 }
                 else {
                     cboCustomerName.removeAllItems();
@@ -58,8 +69,8 @@ public class NewRent {
                 txtAddress.setText("");
                 txtDays.setText("");
                 txtTotal.setText("");
-                txtStartDate.setText("");
-                txtReturnDate.setText("");
+                ftfStartDate.setText("");
+                ftfReturnDate.setText("");
                 cbAlreadyCustomer.setSelected(false);
                 changeButtonState(true, false, false);
                 changeFieldStatus(false, true);
@@ -76,23 +87,18 @@ public class NewRent {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, txtStartDate, cboCustomerName, cbMotobikeName);
+                    String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, ftfStartDate, cboCustomerName, cbMotobikeName);
                     if (valid != null) {
                         JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    cbAlreadyCustomer.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (cbAlreadyCustomer.isSelected()) {
-                                updateCustomer();
-                                insertRent();
-                            } else {
-                                insertCustomer();
-                                insertRent();
-                            }
-                        }
-                    });
+                    if (cbAlreadyCustomer.isSelected()) {
+                        updateCustomer();
+                        insertRent();
+                    } else {
+                        insertCustomer();
+                        insertRent();
+                    }
                     JOptionPane.showMessageDialog(null, "Rent was saved!!!", "Infomation", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -100,14 +106,6 @@ public class NewRent {
                 }
                 changeFieldStatus(false, false);
                 changeButtonState(true, false, true);
-            }
-        });
-        cboCustomerName.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Customer customer = (Customer) cboCustomerName.getSelectedItem();
-                int id = customer.getId();
-                loadIdCustomer(id);
             }
         });
     }
@@ -150,7 +148,7 @@ public class NewRent {
     }
 
     private void insertCustomer() {
-        String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, txtStartDate, cboCustomerName, cbMotobikeName);
+        String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, ftfStartDate, cboCustomerName, cbMotobikeName);
         if (valid != null) {
             JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -172,7 +170,7 @@ public class NewRent {
     }
 
     private void updateCustomer() {
-        String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, txtStartDate, cboCustomerName, cbMotobikeName);
+        String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, ftfStartDate, cboCustomerName, cbMotobikeName);
         if (valid != null) {
             JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -190,7 +188,7 @@ public class NewRent {
 
 
     private void insertRent() {
-        String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, txtStartDate, cboCustomerName, cbMotobikeName);
+        String valid = RentValidator.validate(txtPhoneNumber, txtCCCD, txtAddress, txtDays, txtTotal, ftfStartDate, cboCustomerName, cbMotobikeName);
         if (valid != null) {
             JOptionPane.showMessageDialog(null, valid, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -203,14 +201,14 @@ public class NewRent {
             entity.setPhoneNumber(txtPhoneNumber.getText());
             entity.setCccd(txtCCCD.getText());
             entity.setAddress(txtAddress.getText());
-            MotoType motoType = (MotoType) cbMotobikeName.getSelectedItem();
-            entity.setMotobikeId(motoType.getId());
-            entity.setMotobikeName(motoType.getName());
+            Motobike motobike = (Motobike) cbMotobikeName.getSelectedItem();
+            entity.setMotoId(motobike.getId());
+            entity.setMotoName(motobike.getName());
             entity.setDays(Integer.parseInt(txtDays.getText()));
             entity.setTotal(Double.parseDouble(txtTotal.getText()));
             DateUtil dateUtil = new DateUtil();
-            entity.setStartDate(dateUtil.toDate(txtStartDate.getText()));
-            entity.setEndDate(dateUtil.toDate(txtReturnDate.getText()));
+            entity.setStartDate(dateUtil.toDate(ftfStartDate.getText()));
+//            entity.setEndDate(Objects.equals(ftfReturnDate.getText(), "") ? null:dateUtil.toDate(ftfReturnDate.getText()));
             RentDAO dao = new RentDAO();
             entity = dao.insert(entity);
             txtId.setText("" + entity.getId());
@@ -235,8 +233,8 @@ public class NewRent {
         txtAddress.setEnabled(isEnable);
         txtDays.setEnabled(isEnable);
         txtTotal.setEnabled(isEnable);
-        txtStartDate.setEnabled(isEnable);
-        txtReturnDate.setEnabled(isEnable);
+        ftfStartDate.setEnabled(isEnable);
+        ftfReturnDate.setEnabled(isEnable);
         cbMotobikeName.setEnabled(isEnable);
         cbAlreadyCustomer.setEnabled(isEnable);
         txtPhoneNumber.setEditable(isEnable);
@@ -248,8 +246,8 @@ public class NewRent {
         txtAddress.setEditable(isEditTabel);
         txtDays.setEditable(isEditTabel);
         txtTotal.setEditable(isEditTabel);
-        txtStartDate.setEditable(isEditTabel);
-        txtReturnDate.setEditable(isEditTabel);
+        ftfStartDate.setEditable(isEditTabel);
+        ftfReturnDate.setEditable(isEditTabel);
         txtPhoneNumber.setEditable(isEditTabel);
         cbMotobikeName.setEditable(false);
 
