@@ -117,6 +117,16 @@ public class NewRent {
                 changeButtonState(true, false, true);
             }
         });
+        txtTotal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Motobike motobike = (Motobike) cbMotobikeName.getSelectedItem();
+                double price = motobike.getPrice();
+                int days = Integer.parseInt(txtDays.getText());
+                double total = price * days;
+                txtTotal.setText(String.valueOf(total));
+            }
+        });
     }
     private void loadType() {
         try {
@@ -243,7 +253,7 @@ public class NewRent {
         txtDays.setEnabled(isEnable);
         txtTotal.setEnabled(isEnable);
         ftfStartDate.setEnabled(isEnable);
-        ftfReturnDate.setEnabled(isEnable);
+        ftfReturnDate.setEnabled(false);
         cbMotobikeName.setEnabled(isEnable);
         cbAlreadyCustomer.setEnabled(isEnable);
         txtPhoneNumber.setEditable(isEnable);
@@ -256,7 +266,7 @@ public class NewRent {
         txtDays.setEditable(isEditTabel);
         txtTotal.setEditable(isEditTabel);
         ftfStartDate.setEditable(isEditTabel);
-        ftfReturnDate.setEditable(isEditTabel);
+        ftfReturnDate.setEditable(false);
         txtPhoneNumber.setEditable(isEditTabel);
         cbMotobikeName.setEditable(false);
 

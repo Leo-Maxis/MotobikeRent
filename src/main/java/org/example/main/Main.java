@@ -3,6 +3,7 @@ package org.example.main;
 import org.example.dao.RentDAO;
 import org.example.entity.Rent;
 import org.example.tabs.*;
+import org.example.util.DateUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -117,7 +118,39 @@ public class Main {
                 if (selectedRow == -1 || txtEndDate.getText().equals("null")) {
                     JOptionPane.showMessageDialog(null, " Please chose at least one row want to pay and enter the return date before pay!!",
                             "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (JOptionPane.showConfirmDialog(null, "The total of this rent is " + txtTotal.getText() + " ! Do you want to checkout?", "Confirm",
+                            JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    try {
+                        Rent entity = new Rent();
+                        DateUtil dateUtil = new DateUtil();
+                        entity.setEndDate(dateUtil.toDate(txtEndDate.getText()));
+                        entity.setId(Integer.parseInt(txtRentId.getText()));
+                        RentDAO dao = new RentDAO();
+                        var result = dao.updatePay(entity);
+                        if (result) {
+                            JOptionPane.showMessageDialog(null, "Rent have been paid!!");
+                            txtRentId.setText("");
+                            txtCustomerName.setText("");
+                            txtCCCD.setText("");
+                            txtAddress.setText("");
+                            txtDays.setText("");
+                            txtTotal.setText("");
+                            txtStartDate.setText("");
+                            txtEndDate.setText("");
+                            txtPhoneNumber.setText("");
+                            txtMotobike.setText("");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Rent cannot be checkout!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
+                loadData();
             }
         });
     }

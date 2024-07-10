@@ -147,4 +147,15 @@ public class RentDAO {
             return entity;
         }
     }
+
+    public boolean updatePay(Rent entity) throws SQLException, ClassNotFoundException {
+        String sql = "update rent set endDate=? where id =?";
+        try (Connection conn = DBHelper.getConnection();
+             PreparedStatement ptsmt = conn.prepareStatement(sql)) {
+            java.sql.Date endDate = new Date(entity.getEndDate().getTime());
+            ptsmt.setDate(1, endDate);
+            ptsmt.setInt(2, entity.getId());
+            return ptsmt.executeUpdate() > 0;
+        }
+    }
 }
